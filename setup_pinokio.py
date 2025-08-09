@@ -118,13 +118,16 @@ def install_dependencies(env_dir: Path, facefusion_dir: Path, onnxruntime: str =
     installer_script = facefusion_dir / "install.py"
     print(f"Ejecutando instalador de FaceFusion {installer_script}…")
     # Pasar la opción --skip-conda para evitar que el instalador falle cuando conda no está activo.
+    # Ejecutar el instalador desde el directorio de facefusion para que encuentre
+    # el archivo requirements.txt correctamente. Sin especificar cwd, fallaría
+    # al no encontrar requirements.txt en el directorio raíz.
     run_command([
         str(python_exe),
         str(installer_script),
         "--onnxruntime",
         onnxruntime,
         "--skip-conda",
-    ])
+    ], cwd=facefusion_dir)
 
 
 def write_pinokio_files(repo_root: Path):
