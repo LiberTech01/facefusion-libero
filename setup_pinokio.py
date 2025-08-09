@@ -111,7 +111,8 @@ def install_dependencies(env_dir: Path, facefusion_dir: Path, onnxruntime: str =
         python_exe = env_dir / "bin" / "python"
 
     print("Actualizando pip, wheel y setuptools…")
-    run_command([str(pip_exe), "install", "-U", "pip", "wheel", "setuptools"])
+    # Es más seguro invocar pip mediante "python -m pip" para evitar errores de modificación de pip.
+    run_command([str(python_exe), "-m", "pip", "install", "-U", "pip", "wheel", "setuptools"])
 
     # Ejecutar instalador de FaceFusion
     installer_script = facefusion_dir / "install.py"
